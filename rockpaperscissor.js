@@ -20,9 +20,17 @@ function getComputerChoice(){
 }
 
 //Check the player choice input to determine if its one of the acceptable choices (ignore case)
-function checkPlayerChoice(){
-
+//Use an if or statement to see if the user input is equal to one of the three acceptable options
+//rock, paper, or scissors
+function checkPlayerChoice(choice){
+    if (choice == `rock` || choice == `paper` || choice == `scissors`) {
+        return true;
+    }
+    return false;
 }
 
+//set the font to all lower case so that different versions of capital letters wont impact the game results
 let computerChoice = getComputerChoice().toLowerCase();
-let playerChoice = prompt("Select Rock, Paper, or Scissors").toLowerCase();
+let playerChoice = prompt("Select Rock, Paper, or Scissors").toLowerCase();  
+
+console.log(checkPlayerChoice(playerChoice))
