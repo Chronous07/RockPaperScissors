@@ -1,9 +1,11 @@
 /* This is a simple game of rock, paper, scissors against a computer
 */
 
+{ //Global Variables 
 let playerScore = 0;
 let computerScore = 0;
 let tieCount = 0;
+}
 
 while (confirm(`Press OK to play to play Rock, Paper, Scissors`)){
     let computerChoice = getComputerChoice().toLowerCase();
@@ -16,9 +18,10 @@ while (confirm(`Press OK to play to play Rock, Paper, Scissors`)){
     alert(`Computer selected ${computerChoice}, ` + checkWinner(playerChoice, computerChoice));
     alert(`Player Wins:${playerScore} Computer Wins:${computerScore} Ties:${tieCount}`);
 }
-    alert(`Thanks for playing!  Final Scores: Player Wins:${playerScore} Computer Wins:${computerScore} Ties:${tieCount}`)
 
-    function getComputerChoice(){
+alert(`Thanks for playing!  Final Scores: Player Wins:${playerScore} Computer Wins:${computerScore} Ties:${tieCount}`)
+
+function getComputerChoice(){
     switch (Math.floor(Math.random()*3)+1){        
         case 1:
             return "Rock";
