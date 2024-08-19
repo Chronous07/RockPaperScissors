@@ -29,8 +29,45 @@ function checkPlayerChoice(choice){
     return false;
 }
 
-//set the font to all lower case so that different versions of capital letters wont impact the game results
-let computerChoice = getComputerChoice().toLowerCase();
-let playerChoice = prompt("Select Rock, Paper, or Scissors").toLowerCase();  
+//Check whether the player or computer wins
+//use a series of loops for each possible situation to determine the winner
+function checkWinner(playerSelection, computerSelection) {
+    
+    //all tie conditions
+    if (playerSelection == computerSelection){
+        return `Computer also selected ${computerSelection}, so its a tie!`;
+    }
 
-console.log(checkPlayerChoice(playerChoice))
+    //all win conditions
+    if (playerSelection == `rock` && computerSelection == `scissors`) {
+        return `Computer selected ${computerSelection}, You Win!`;
+    }
+    if (playerSelection == `paper` && computerSelection == `rock`) {
+        return `Computer selected ${computerSelection}, You Win!`;
+    }
+    if (playerSelection == `scissors` && computerSelection == `paper`) {
+        return `Computer selected ${computerSelection}, You Win!`;
+    }
+
+    //if there is no tie or win condition (from above code), then player loses
+    return `Computer selected ${computerSelection}, You Lose :(.`;
+}
+
+//loops through the game until player choses to stop playing
+while (confirm(`Press OK to play to play Rock, Paper, Scissors?`)){
+
+    //set the font to all lower case so that different versions of capital letters wont impact the game results
+    let computerChoice = getComputerChoice().toLowerCase();
+    console.log(computerChoice)
+    let playerChoice = prompt("Select Rock, Paper, or Scissors").toLowerCase();  
+
+
+    //Check if the player choice is acceptable or not, and if not then ask them to make the choice again
+    //Loop through this until the player makes an acceptable choice.  Once that is done, proceed to check who wins
+    while (!checkPlayerChoice(playerChoice)){
+        playerChoice = prompt(`Selection of ${playerChoice} was not valid. Please select Rock, Paper, or Scissors`).toLowerCase();
+    }
+
+    alert((checkWinner(playerChoice, computerChoice)))
+
+}
