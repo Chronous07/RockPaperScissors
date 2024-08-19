@@ -35,23 +35,32 @@ function checkWinner(playerSelection, computerSelection) {
     
     //all tie conditions
     if (playerSelection == computerSelection){
+        tieCount++;
         return `Computer also selected ${computerSelection}, so its a tie!`;
     }
 
     //all win conditions
     if (playerSelection == `rock` && computerSelection == `scissors`) {
+        playerScore++;
         return `Computer selected ${computerSelection}, You Win!`;
     }
     if (playerSelection == `paper` && computerSelection == `rock`) {
+        playerScore++;
         return `Computer selected ${computerSelection}, You Win!`;
     }
     if (playerSelection == `scissors` && computerSelection == `paper`) {
+        playerScore++;
         return `Computer selected ${computerSelection}, You Win!`;
     }
 
     //if there is no tie or win condition (from above code), then player loses
+    computerScore++;
     return `Computer selected ${computerSelection}, You Lose :(.`;
 }
+
+let playerScore = 0;
+let computerScore = 0;
+let tieCount = 0;
 
 //loops through the game until player choses to stop playing
 while (confirm(`Press OK to play to play Rock, Paper, Scissors?`)){
@@ -69,5 +78,5 @@ while (confirm(`Press OK to play to play Rock, Paper, Scissors?`)){
     }
 
     alert((checkWinner(playerChoice, computerChoice)))
-
+    alert(`Player Wins:${playerScore} Computer Wins:${computerScore} Ties:${tieCount}`)
 }
