@@ -15,7 +15,7 @@ function getComputerChoice(){
         case 3:
             return "Scissors";
         default:
-            return "Error";
+            return console.warning("Error, random code selected a number outside of the range of 1-3");
     }
 }
 
@@ -32,30 +32,23 @@ function checkPlayerChoice(choice){
 //Check whether the player or computer wins
 //use a series of loops for each possible situation to determine the winner
 function checkWinner(playerSelection, computerSelection) {
-    
     //all tie conditions
     if (playerSelection == computerSelection){
         tieCount++;
-        return `Computer also selected ${computerSelection}, so its a tie!`;
+        return `so its a tie!`;
     }
 
-    //all win conditions
-    if (playerSelection == `rock` && computerSelection == `scissors`) {
+    //check for all win conditions
+    if (playerSelection == `rock` && computerSelection == `scissors` 
+        || (playerSelection == `paper` && computerSelection == `rock`)
+        || (playerSelection == `scissors` && computerSelection == `paper`)) {
         playerScore++;
-        return `Computer selected ${computerSelection}, You Win!`;
-    }
-    if (playerSelection == `paper` && computerSelection == `rock`) {
-        playerScore++;
-        return `Computer selected ${computerSelection}, You Win!`;
-    }
-    if (playerSelection == `scissors` && computerSelection == `paper`) {
-        playerScore++;
-        return `Computer selected ${computerSelection}, You Win!`;
+        return `You Win!`;
     }
 
     //if there is no tie or win condition (from above code), then player loses
     computerScore++;
-    return `Computer selected ${computerSelection}, You Lose :(.`;
+    return `You Lose :(.`;
 }
 
 let playerScore = 0;
@@ -64,19 +57,14 @@ let tieCount = 0;
 
 //loops through the game until player choses to stop playing
 while (confirm(`Press OK to play to play Rock, Paper, Scissors?`)){
-
-    //set the font to all lower case so that different versions of capital letters wont impact the game results
     let computerChoice = getComputerChoice().toLowerCase();
-    console.log(computerChoice)
+/*     console.log(computerChoice) */
     let playerChoice = prompt("Select Rock, Paper, or Scissors").toLowerCase();  
 
-
-    //Check if the player choice is acceptable or not, and if not then ask them to make the choice again
-    //Loop through this until the player makes an acceptable choice.  Once that is done, proceed to check who wins
     while (!checkPlayerChoice(playerChoice)){
         playerChoice = prompt(`Selection of ${playerChoice} was not valid. Please select Rock, Paper, or Scissors`).toLowerCase();
     }
 
-    alert((checkWinner(playerChoice, computerChoice)))
+    alert(`Computer selected ${computerChoice}, ` + checkWinner(playerChoice, computerChoice))
     alert(`Player Wins:${playerScore} Computer Wins:${computerScore} Ties:${tieCount}`)
 }
