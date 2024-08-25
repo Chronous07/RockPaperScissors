@@ -1,25 +1,18 @@
 /* This is a simple game of rock, paper, scissors against a computer
 */
 
-{ //Global Variables 
+//Global Variables 
 let playerScore = 0;
 let computerScore = 0;
 let tieCount = 0;
-}
+let gameOver = false;
+let buttonListener = document.querySelectorAll(`button`);
 
-while (confirm(`Press OK to play to play Rock, Paper, Scissors`)){
-    let computerChoice = getComputerChoice().toLowerCase();
-    let playerChoice = prompt("Select Rock, Paper, or Scissors").toLowerCase();  
+buttonListener.forEach((button)=>{
+    button.addEventListener('click', playerChoice);
+});
 
-    while (!checkPlayerChoiceIsValid(playerChoice)){
-        playerChoice = prompt(`Selection of ${playerChoice} was not valid. Please select Rock, Paper, or Scissors`).toLowerCase();
-    }
-
-    alert(`Computer selected ${computerChoice}, ` + checkWinner(playerChoice, computerChoice));
-    alert(`Player Wins:${playerScore} Computer Wins:${computerScore} Ties:${tieCount}`);
-}
-
-alert(`Thanks for playing!  Final Scores: Player Wins:${playerScore} Computer Wins:${computerScore} Ties:${tieCount}`)
+/* alert(`Thanks for playing!  Final Scores: Player Wins:${playerScore} Computer Wins:${computerScore} Ties:${tieCount}`) */
 
 function getComputerChoice(){
     switch (Math.floor(Math.random()*3)+1){        
@@ -34,26 +27,57 @@ function getComputerChoice(){
     }
 }
 
-function checkPlayerChoiceIsValid(choice){
-    if (choice == `rock` || choice == `paper` || choice == `scissors`) {
-        return true;
+function playerChoice(event){
+    executeGame(event.target.id);
+}
+
+function executeGame(playerChoice) {
+    let computerChoice = getComputerChoice().toLowerCase(); 
+    let playerScoreLog = document.getElementById("score_player");
+    let computerScoreLog = document.getElementById("score_computer");
+    let roundResult = document.getElementById("round_result");
+
+    if (checkWinner(playerChoice, computerChoice) == 0){
+        console.log("Tie");
+        roundResult.textContent = `Player selected ${playerChoice}, Computer selected ${computerChoice}.  Its a tie`
+    } else if (checkWinner(playerChoice, computerChoice) == 1) {
+        roundResult.textContent = `Player selected ${playerChoice}, Computer selected ${computerChoice}.  You win the round`
+        playerScore++;
+    } else if (checkWinner(playerChoice, computerChoice) == 2) {
+        roundResult.textContent = `Player selected ${playerChoice}, Computer selected ${computerChoice}.  You lose the round`
+        computerScore++;
     }
-    return false;
+
+    if (playerScore == 5){
+        alert("You beat the computer in a best of 5. Game is now reset");
+        computerScore = 0;
+        playerScore = 0;
+        roundResult.textContent = ""
+    }
+    if (computerScore == 5){
+        alert("The computer beat you in a best of 5. Game is now reset");
+        computerScore = 0;
+        playerScore = 0;
+        roundResult.textContent = ""
+    }
+
+
+    playerScoreLog.textContent = "Player Score: " + playerScore;
+    computerScoreLog.textContent = "Computer Score: " + computerScore;
+
 }
 
 function checkWinner(playerSelection, computerSelection) {
+    
     if (playerSelection == computerSelection){
-        tieCount++;
-        return `so its a tie!`;
+        return 0;
     }
 
     if (playerSelection == `rock` && computerSelection == `scissors` 
         || (playerSelection == `paper` && computerSelection == `rock`)
         || (playerSelection == `scissors` && computerSelection == `paper`)) {
-        playerScore++;
-        return `You Win!`;
+        return 1;
     }
 
-    computerScore++;
-    return `You Lose :(.`;
+    return 2;
 }
